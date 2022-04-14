@@ -18,70 +18,65 @@ interface IHistorical {
 
 function Chart() {
   const { coinId } = useOutletContext<IChartProps>();
-  const { isLoading, data } = useQuery<IHistorical[]>(
-    ["ohlcv", coinId],
-    () => fetchCoinHistory(coinId),
-    {
-      refetchInterval: 10000,
-    }
+  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
+    fetchCoinHistory(coinId)
   );
-
+  function fixedTwo(number: number) {
+    return number.toFixed(2);
+  }
   return (
     <>
       {isLoading ? (
         "Loading Chart..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
           series={[
             {
               name: "Price",
-              data: data?.map((price) => price.close) ?? [],
+              data:
+                data?.map((price) => ({
+                  x: new Date(price.time_close),
+                  y: [
+                    fixedTwo(price.open),
+                    fixedTwo(price.high),
+                    fixedTwo(price.low),
+                    fixedTwo(price.close),
+                  ],
+                })) ?? [],
             },
           ]}
           options={{
             chart: {
               height: 300,
-              width: 500,
               toolbar: {
                 show: false,
               },
+              type: "candlestick",
               background: "transparent",
             },
             grid: {
               show: false,
             },
-            stroke: {
-              curve: "smooth",
-              width: 3,
-            },
-            yaxis: {
-              show: false,
-            },
             xaxis: {
-              axisBorder: { show: false },
-              axisTicks: { show: false },
-              labels: { show: false },
+              axisBorder: {
+                show: false,
+              },
+              axisTicks: {
+                show: false,
+              },
+              labels: {
+                show: false,
+              },
               type: "datetime",
-              categories: data?.map((price) => price.time_close) ?? [],
             },
+            yaxis: { show: false },
             theme: {
               mode: "dark",
             },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#0be881"],
-                stops: [0, 100],
-              },
-            },
-            colors: ["#0fbcf9"],
             tooltip: {
-              y: {
-                formatter: (value) => `${value.toFixed(2)}`,
-              },
               x: {
-                format: "yy/MM/dd HH:mm",
+                format: "yyyy/MM/dd HH:mm",
               },
             },
           }}

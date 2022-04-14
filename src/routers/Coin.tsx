@@ -21,6 +21,7 @@ const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 const Loader = styled.span`
@@ -77,6 +78,13 @@ const Tab = styled.span<{ isActive: boolean }>`
   a {
     display: block;
   }
+`;
+
+const CloseBtn = styled(Link)`
+  position: absolute;
+  right: 0;
+  color: ${(props) => props.theme.accentColor};
+  font-size: 18px;
 `;
 
 interface RouteState {
@@ -161,8 +169,8 @@ function Coin() {
     <Container>
       <Helmet>
         <title>
-          {state?.coinId ? state.coinId : loading ? "loading" : infoData?.name}{" "}
-          | Coin
+          {state?.coinId ? state.coinId : loading ? "loading" : infoData?.name}|
+          Coin
         </title>
       </Helmet>
       <Header>
@@ -170,6 +178,9 @@ function Coin() {
           {state?.coinId ? state.coinId : loading ? "loading" : infoData?.name}
           [Coin]
         </Title>
+        <CloseBtn to={"/"}>
+          <span>✖︎</span>
+        </CloseBtn>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>
