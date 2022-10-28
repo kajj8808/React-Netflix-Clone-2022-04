@@ -6,7 +6,7 @@
 
 [Git Repositery](<(https://github.com/kajj8808/React-Netflix-Clone-2022-04/tree/f307b0d049e5d361b00d4370a8c6b83c910179fc)>)
 
-- [ ] Coins
+- [x] Coins
 - [x] Coin
   - [x] 1. 뒤로 가기 버튼 생성.
   - [x] 2. Price 볼수있게.
